@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML Canvas</title>
+</head>
+<body>
+    <canvas id="landscapeCanvas" width="800" height="400"></canvas>
+
+    <script>
+        var canvas = document.getElementById("landscapeCanvas");
+        var ctx = canvas.getContext("2d");
+        function drawCloud(x, y, radius,) {
+            ctx.fillStyle = "rgba(255, 255, 255, 0.8)"; // Màu trắng mờ
+            ctx.beginPath();
+            ctx.arc(x, y, 30, 0, Math.PI * 2);
+            ctx.arc(x + 20, y - 10, 30, 0, Math.PI * 2);
+            ctx.arc(x + 40, y, 30, 0, Math.PI * 2);
+            ctx.arc(x + 50, y  , 30, 0, Math.PI * 2);
+            ctx.closePath();
+            ctx.fill();
+        }
+        // Màu nền - Sky
+        var gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+        gradient.addColorStop(0, "#87CEEB"); // Màu xanh da trời
+        gradient.addColorStop(1, "#B0E0E6"); // Màu xanh da trời nhạt
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.lineWidth = 2;
+        function drawSun(){
+            ctx.fillStyle = "#FFD700"; // Màu vàng
+
+            // Vẽ mặt trời
+            ctx.beginPath();
+            ctx.arc(100, 100, 50, 0, Math.PI * 2); // Mặt trời
+            ctx.closePath();
+            ctx.fill();
+
+            // Màu tia sáng
+            ctx.strokeStyle = "#FFD700"; // Màu vàng
+            ctx.lineWidth = 2;
+
+            // Vẽ các tia sáng xung quanh mặt trời
+            for (var i = 0; i < 12; i++) {
+                ctx.beginPath();
+                ctx.moveTo(100, 100); // Bắt đầu từ tâm mặt trời
+                var x = 100 + 70 * Math.cos(Math.PI / 6 * i); 
+                var y = 100 + 70 * Math.sin(Math.PI / 6 * i); 
+                ctx.lineTo(x, y); 
+                ctx.stroke();
+            }
+        }
+
+        function drawMountain(x, y, width, height, color) {
+            const peakX = x + width / 2; 
+
+            ctx.beginPath();
+            ctx.moveTo(x, y); 
+            ctx.quadraticCurveTo(peakX, y - height, x + width, y); 
+            ctx.fillStyle = color;
+            ctx.fill();
+        }
+
+        drawMountain(50, 400, 300, 600, '#6b8e75');
+        drawMountain(230, 400, 300, 650, '#556b2f');
+        drawMountain(150, 400, 300, 700, '#8daa92');
+        drawMountain(350, 400, 250, 350, '#7c9985');
+
+        // Màu thân cây
+        ctx.fillStyle = "#8B4513"; // Màu nâu đậm
+        ctx.fillRect(600, 200, 20, 200);
+
+        // Màu tán lá
+        ctx.fillStyle = "#228B22"; // Màu xanh lá cây
+
+        // Vẽ tán lá cây bằng nhiều hình tròn
+        ctx.beginPath();
+        ctx.arc(610, 180, 50, 0, Math.PI * 2); // Tán lá ở trên
+        ctx.arc(580, 220, 50, 0, Math.PI * 2); // Tán lá ở giữa bên trái
+        ctx.arc(650, 220, 50, 0, Math.PI * 2); // Tán lá ở giữa bên phải
+        ctx.arc(650, 220, 50, 0, Math.PI * 2); // Tán lá ở giữa bên phải
+        ctx.arc(610, 250, 50, 0, Math.PI * 2); // Tán lá ở dưới
+        ctx.closePath();
+        ctx.fill();
+    
+        // Mặt đất
+        ctx.fillStyle = "#8B4513"; // Màu nâu đậm
+        ctx.fillRect(0, 600, canvas.width, 50);
+
+
+
+        drawCloud(150, 100);
+        drawCloud(600, 100);
+        drawSun()
+        
+
+
+    </script>
+</body>
+</html>
